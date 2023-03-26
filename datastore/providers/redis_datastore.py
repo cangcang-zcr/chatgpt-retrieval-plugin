@@ -283,7 +283,7 @@ class RedisDataStore(DataStore):
         """
         # Prepare results object
         results: List[QueryResult] = []
-
+        print("ffffff")
         # Use asyncio for concurrent search
         n = min(len(queries), 50)
         semaphore = asyncio.Semaphore(n)
@@ -306,23 +306,31 @@ class RedisDataStore(DataStore):
         query_responses = await asyncio.gather(
             *[_single_query(query) for query in queries]
         )
-
+        print("gggggg")
         # Iterate through responses and construct results
         for query, query_response in zip(queries, query_responses):
-
+            print("query")
             # Iterate through nearest neighbor documents
             query_results: List[DocumentChunkWithScore] = []
+            print("q1")
             for doc in query_response.docs:
                 # Create a document chunk with score object with the result data
                 doc_json = json.loads(doc.json)
+                print("doc_json",doc_json["metadata"]["document_id"])
+                print("doc.score",doc.score)
+                print('doc_json["text"]',doc_json["text"])
+                print('metadata=doc_json["metadata"],',doc_json["metadata"])  
+                doc_json["metadata"]['source'] = "chat"                
                 result = DocumentChunkWithScore(
                     id=doc_json["metadata"]["document_id"],
                     score=doc.score,
                     text=doc_json["text"],
                     metadata=doc_json["metadata"],
                 )
-                query_results.append(result)
+                print("yes")
 
+                query_results.append(result)
+            print("q2")
             # Add to overall results
             results.append(QueryResult(query=query.query, results=query_results))
         return results

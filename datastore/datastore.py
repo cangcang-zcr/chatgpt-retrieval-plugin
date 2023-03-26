@@ -54,6 +54,7 @@ class DataStore(ABC):
         """
         Takes in a list of queries and filters and returns a list of query results with matching document chunks and scores.
         """
+        print("sssss")
         # get a list of of just the queries from the Query list
         query_texts = [query.query for query in queries]
         query_embeddings = get_embeddings(query_texts)
@@ -62,6 +63,7 @@ class DataStore(ABC):
             QueryWithEmbedding(**query.dict(), embedding=embedding)
             for query, embedding in zip(queries, query_embeddings)
         ]
+        print("dssss1")
         return await self._query(queries_with_embeddings)
 
     @abstractmethod
