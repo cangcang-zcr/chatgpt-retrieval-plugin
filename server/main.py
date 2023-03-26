@@ -285,10 +285,3 @@ async def startup():
 def start():
     uvicorn.run("server.main:app", host="0.0.0.0", port=8000, reload=True)
 
-
-# export DATASTORE=redis
-# export BEARER_TOKEN=<your_bearer_token>
-# export OPENAI_API_KEY=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
-# <Add the environment variables for your chosen vector DB here>
-# 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
-# export OPENAI_API_KEY="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"
